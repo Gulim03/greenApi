@@ -33,7 +33,6 @@
             border-radius: 4px;
             width: 50%;
             box-sizing: border-box;
-            /* Makes sure padding and borders don't affect width */
         }
 
         .request button {
@@ -51,20 +50,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-
-        
-        /* .column {
-            width: 45%;
-        }
-        .method {
-            margin-bottom: 20px;
-        }
-        .response {
-            background-color: #f4f4f4;
-            padding: 10px;
-            border: 1px solid #ddd;
-            margin-top: 10px;
-        } */
     </style>
 </head>
 
@@ -106,11 +91,8 @@
                 <option value="@g.us">@g.us</option>
             </select>
             <small id="warningFile" style="color: red; display: none;">Пожалуйста, вводите только цифры.</small>
-            <!-- <br> -->
             <input type="text" id="urlFile" placeholder="Ссылка на файл">
-            <!-- <br> -->
             <input type="text" id="fileName" placeholder="Название файла с расширением">
-            <!-- <br> -->
             <input type="text" id="caption" placeholder="Описание">
             <button onclick="sendFileByUrl()">Send File</button>
         </div>
@@ -140,26 +122,6 @@
                     document.getElementById('response').innerText = JSON.stringify(data, null, 2);
                 });
         }
-
-        // function validateInput(input) {
-        //     const warning = document.getElementById('warning');
-        //     if (/\D/.test(input.value)) {
-        //         warning.style.display = 'block';
-        //         input.value = input.value.replace(/\D/g, '');
-        //     } else {
-        //         warning.style.display = 'none';
-        //     }
-        // }
-
-        // function validateInputURL(input) {
-        //     const warning = document.getElementById('warningFile');
-        //     if (/\D/.test(input.value)) {
-        //         warning.style.display = 'block';
-        //         input.value = input.value.replace(/\D/g, '');
-        //     } else {
-        //         warning.style.display = 'none';
-        //     }
-        // }
 
         function validateInput(input, warningId) {
             const warning = document.getElementById(warningId);
@@ -214,136 +176,3 @@
 </body>
 
 </html>
-
-<!-- <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>GREEN-API Methods</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .container {
-            display: flex;
-            justify-content: space-between;
-        }
-        .column {
-            width: 45%;
-        }
-        .method {
-            margin-bottom: 20px;
-        }
-        .response {
-            background-color: #f4f4f4;
-            padding: 10px;
-            border: 1px solid #ddd;
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="column">
-            <div class="method">
-                <h2>Настройки подключения</h2>
-                <input type="text" id="idInstance" placeholder="ID Instance">
-                <input type="text" id="apiTokenInstance" placeholder="API Token Instance">
-            </div>
-            
-            <div class="method">
-                <h2>Get Settings</h2>
-                <button onclick="getSettings()">Get Settings</button>
-                <div id="getSettingsResponse" class="response"></div>
-            </div>
-            
-            <div class="method">
-                <h2>Get State Instance</h2>
-                <button onclick="getStateInstance()">Get State Instance</button>
-                <div id="getStateInstanceResponse" class="response"></div>
-            </div>
-        </div>
-        
-        <div class="column">
-            <div class="method">
-                <h2>Send Message</h2>
-                <input type="text" id="chatId" placeholder="Chat ID">
-                <input type="text" id="message" placeholder="Message">
-                <button onclick="sendMessage()">Send Message</button>
-                <div id="sendMessageResponse" class="response"></div>
-            </div>
-            
-            <div class="method">
-                <h2>Send File By URL</h2>
-                <input type="text" id="chatIdFile" placeholder="Chat ID">
-                <input type="text" id="urlFile" placeholder="URL File">
-                <input type="text" id="fileName" placeholder="File Name">
-                <input type="text" id="caption" placeholder="Caption">
-                <button onclick="sendFileByUrl()">Send File</button>
-                <div id="sendFileByUrlResponse" class="response"></div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function getSettings() {
-            const idInstance = document.getElementById('idInstance').value;
-            const apiTokenInstance = document.getElementById('apiTokenInstance').value;
-            fetch(`https://api.green-api.com/waInstance${idInstance}/getSettings/${apiTokenInstance}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('getSettingsResponse').innerText = JSON.stringify(data, null, 2);
-                });
-        }
-
-        function getStateInstance() {
-            const idInstance = document.getElementById('idInstance').value;
-            const apiTokenInstance = document.getElementById('apiTokenInstance').value;
-            fetch(`https://api.green-api.com/waInstance${idInstance}/getStateInstance/${apiTokenInstance}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('getStateInstanceResponse').innerText = JSON.stringify(data, null, 2);
-                });
-        }
-
-        function sendMessage() {
-            const idInstance = document.getElementById('idInstance').value;
-            const apiTokenInstance = document.getElementById('apiTokenInstance').value;
-            const chatId = document.getElementById('chatId').value;
-            const message = document.getElementById('message').value;
-            fetch(`https://api.green-api.com/waInstance${idInstance}/sendMessage/${apiTokenInstance}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ chatId, message })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('sendMessageResponse').innerText = JSON.stringify(data, null, 2);
-                });
-        }
-
-        function sendFileByUrl() {
-            const idInstance = document.getElementById('idInstance').value;
-            const apiTokenInstance = document.getElementById('apiTokenInstance').value;
-            const chatId = document.getElementById('chatIdFile').value;
-            const urlFile = document.getElementById('urlFile').value;
-            const fileName = document.getElementById('fileName').value;
-            const caption = document.getElementById('caption').value;
-            fetch(`https://api.green-api.com/waInstance${idInstance}/sendFileByUrl/${apiTokenInstance}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ chatId, urlFile, fileName, caption })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('sendFileByUrlResponse').innerText = JSON.stringify(data, null, 2);
-                });
-        }
-    </script>
-</body>
-</html> -->
